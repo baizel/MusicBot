@@ -29,6 +29,7 @@ Some frequently asked questions are listed on the wiki [here](https://github.com
 
 # MusicBot-With-Spotify
 This is an extension to the MusicBot made by SexualRhinoceros (https://github.com/Just-Some-Bots/MusicBot). That lets you add songs from a Spotify playlist given its URI
+<h1> If you already Have a bot Installed You only need bot.py. See <a href="https://github.com/baizel/MusicBot-With-Spotify">Here</a></h1>
 
 You will need to create a developer app on Spotify to add the Spotify feature to your Bot.</br>
 To do this visit https://developer.spotify.com/my-applications/#!/ and follow instructions.</br>
