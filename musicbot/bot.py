@@ -8,6 +8,8 @@ import aiohttp
 import discord
 import asyncio
 import traceback
+import spotipy
+import spotipy.util as util
 
 from discord import utils
 from discord.object import Object
@@ -27,6 +29,7 @@ from musicbot.player import MusicPlayer
 from musicbot.config import Config, ConfigDefaults
 from musicbot.permissions import Permissions, PermissionsDefaults
 from musicbot.utils import load_file, write_file, sane_round_int
+
 
 from . import exceptions
 from . import downloader
@@ -1288,7 +1291,7 @@ class MusicBot(discord.Client):
                 'There are no songs queued! Queue something with {}play.'.format(self.config.command_prefix),
                 delete_after=30
             )
-
+			
     async def cmd_summon(self, channel, author, voice_channel):
         """
         Usage:
@@ -1811,7 +1814,7 @@ class MusicBot(discord.Client):
         await self.safe_send_message(channel, ":wave:")
         await self.disconnect_all_voice_clients()
         raise exceptions.TerminateSignal
-
+		
     async def on_message(self, message):
         await self.wait_until_ready()
 
@@ -2012,6 +2015,35 @@ class MusicBot(discord.Client):
             await self.reconnect_voice_client(after)
 
 
+    async def cmd_spotify(self, player, channel, author, permissions, leftover_args, URI):
+        """
+            Usage:
+            {command_prefix}spotify spotifyURI
+        """
+        scope = 'playlist-modify-public'
+        token = util.prompt_for_user_token("USERNAME", scope, "CLIENT_ID",
+                                           "CLIENT_SECRET", "REDIRECT_URI")
+        sp = spotipy.Spotify(auth=token)
+        # TODO add checks for URI format
+        #URI must be in format spotify:user:spotify:playlist:someplaylistid
+        username = URI.split(":")[2]
+        playlist = URI.split(":")[4]
+        res = sp.user_playlist_tracks(username, playlist)
+        # TODO checks to see if it fails
+        for items in res["items"]:
+            song = items["track"]["name"]
+            artist = items["track"]["artists"][0]["name"]
+            songToPlay = str(song) + " by " + str(artist)
+            #print (songToPlay)
+            await self.cmd_play(player, channel, author, permissions, leftover_args, songToPlay)
+        #TODO Check if everything was added to queue
+        return Response("Songs Added. Maybe")
+
+
+
+		
 if __name__ == '__main__':
     bot = MusicBot()
+
     bot.run()
+    
