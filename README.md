@@ -7,7 +7,6 @@ This is an extension to the MusicBot made by SexualRhinoceros (https://github.co
 <li> Start a radio with a given artist (Pretty much like Spotify radio)</li>
 <li> Maybe more?  </li>
 </ul>
-
 <h1> Requirements </h1>
 <ul> 
 <li> Spotipy </li>
@@ -15,11 +14,11 @@ This is an extension to the MusicBot made by SexualRhinoceros (https://github.co
 <li> python 3.5.1+ </li>
 <li> Spotify Account </li>
 </ul>
-<h2> How do I add Spotify To My Bot</h2> </br>
+<h2> How do I add Spotify To My Bot</h2> 
 <h3> Notes </h3>
-<p>You will need to create a developer app on Spotify to add the Spotify feature to your Bot.<br>
-To do this visit https://developer.spotify.com/my-applications/#!/ and follow instructions.<br>
-Keep a note of your Application Client Id and Secret ID. <br>
+<p>You will need to create a developer app on Spotify to add the Spotify feature to your Bot
+To do this visit https://developer.spotify.com/my-applications/#!/ and follow instructions.
+Keep a note of your Application Client Id and Secret ID. 
 More Details on creating the app can be found on https://spotipy.readthedocs.io/en/latest/#authorized-requests </p>
 <ul>
 <li><a href ="https://github.com/plamere/spotipy">Install Spotipy </a> either using pip install spotipy or as specified by Spotipy. </br> </li>
@@ -39,7 +38,7 @@ This works by getting a spotify URI then using Spotify API to get all the tracks
 <h1> Disclaimer </h1>
 This DOES NOT stream from Spotify. Only gets Track Names and then uses youtube to get the music
 
-
+###################################### Orginal Instructions ##################################
 # RhinoBot: The music bot for Discord.
 
 MusicBot is a Discord music bot written in [Python](https://www.python.org "Python homepage"). It plays requested songs and if the queue becomes empty it will play through a list of existing songs.
