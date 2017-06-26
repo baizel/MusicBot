@@ -1,29 +1,43 @@
 # MusicBot-With-Spotify
 This is an extension to the MusicBot made by SexualRhinoceros (https://github.com/Just-Some-Bots/MusicBot). That lets you add songs from a Spotify playlist given its URI
-<h2>Features </h2>
+
+<h2>Current Features </h2>
 <ul>
 <li> Play any playlist from Spotify using its URI </li>
 <li> Start a radio with a given artist (Pretty much like Spotify radio)</li>
 <li> Maybe more?  </li>
 </ul>
 
-<h2>Requirments </h2>
-You will need to create a developer app on Spotify to add the Spotify feature to your Bot.
-To do this visit https://developer.spotify.com/my-applications/#!/ and follow instructions.
-Keep a not of your Application Client Id and Secret ID. </br>
-More Details on creating the app can be found on https://spotipy.readthedocs.io/en/latest/#authorized-requests
-
+<h1> Requirements </h1>
+<ul> 
+<li> Spotipy </li>
+<li> MusicBot Installed </li>
+<li> python 3.5.1+ </li>
+<li> Spotify Account </li>
+</ul>
 <h2> How do I add Spotify To My Bot</h2> </br>
-<ol>
+<h3> Notes </h3>
+<p>You will need to create a developer app on Spotify to add the Spotify feature to your Bot.<br>
+To do this visit https://developer.spotify.com/my-applications/#!/ and follow instructions.<br>
+Keep a note of your Application Client Id and Secret ID. <br>
+More Details on creating the app can be found on https://spotipy.readthedocs.io/en/latest/#authorized-requests </p>
+<ul>
 <li><a href ="https://github.com/plamere/spotipy">Install Spotipy </a> either using pip install spotipy or as specified by Spotipy. </br> </li>
-<li>Fill Credentials in <b>options.ini as shown in example_options.ini</b></li>
-<li>Add 'spotify' to permissions.ini file </li>
+<li>Fill in Credentials in bot.py (Its at the bottom of the page) and then replace it. </li>
+<li>Add 'spotify' to permissions.ini file (As seen on example_permissions.ini) </li>
 <li>Run your Bot to see if it works.<br>If it did you should get a URL in the shell whcich you should visit.<br>
 It should re-direct you to a new link. Copy this link.<br>
 Paste it into the shell (This is part of Spotipy so for any refrence visit https://spotipy.readthedocs.io/en/latest/#authorized-requests)
 </li> 
 <li> Thats It! It should work, Hopefuly.</li> 
-</ol>
+</ul>
+
+<h1> Usage </h1>
+In discord use {pre-fix}spotify spotify:Uri:Format:like:This <br>
+This works by getting a spotify URI then using Spotify API to get all the tracks inside the playlist. Then playing them using the built-in play method.
+
+<h1> Disclaimer </h1>
+This DOES NOT stream from Spotify. Only gets Track Names and then uses youtube to get the music
 
 
 # RhinoBot: The music bot for Discord.
