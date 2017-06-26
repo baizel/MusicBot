@@ -2058,6 +2058,97 @@ class MusicBot(discord.Client):
         #TODO Check if everything was added to queue
         return Response(songToPlay+" Added")
 
+    async def cmd_radio(self, player, channel, author, permissions, leftover_args):
+        """
+          Usage:
+              {command_prefix}radio [number of songs] [artist]
+              This will add songs that are related to the artist given (default number of songs is 20). Similar to Spotify radio but with only set number of songs
+              
+              -number of songs
+                 - this will determine number of songs to be added NOTE number of songs will get rounded to the lowest factor of 20
+              -artist 
+                -this is the artist you want the radio to be started on
+              
+        """
+        scope = 'playlist-modify-public'
+        #max is the number of songs user can request
+        max = 200
+        token = util.prompt_for_user_token(self.config.spotify_username, scope, self.config.spotify_clientId,
+                                           self.config.spotify_clientSecret, self.config.spotify_redirectURL)
+
+        if permissions.max_songs and player.playlist.count_for_user(author) > permissions.max_songs:
+            raise exceptions.PermissionsError(
+                "You have reached your playlist item limit (%s)" % permissions.max_songs,
+                expire_in=30
+            )
+        #TODO add more checks on args checks
+        #Deafult values
+        artist = ""
+        numberOfSongs = 20
+
+        try:
+            if leftover_args[0].isdigit():
+                numberOfSongs = int(leftover_args[0])
+                leftover_args.pop(0)
+            else:
+                await self.safe_send_message(channel,"Setting number of songs to 20",expire_in=30)
+        except IndexError:
+            await self.safe_send_message(channel,"Setting number of songs to 20",expire_in=30)
+
+        #proably could just use join
+        for  arts in leftover_args:
+            artist = artist +" "+ arts
+
+        await self.safe_send_message(channel,"Searching for "+artist,expire_in=30)
+
+        sp = spotipy.Spotify(auth=token)
+        artistSearch = sp.search(q=artist, type='artist')
+
+        #Checks for valid artist
+        if(len(artistSearch['artists']['items']) > 0 ):
+            id =  artistSearch['artists']['items'][0]['id']
+        else:
+            return await self.safe_send_message(channel,"No artist found :( ",expire_in=30)
+
+        #Todo use this as seed for next iteration, currently not used (This may not actually work/be useful)
+        nextSeedTracks = []
+        listOfSongs = []
+
+        rng = 1
+        limit = 20
+        if numberOfSongs <= max:
+            if numberOfSongs > 20:
+                rng = int(numberOfSongs / 20)
+            else:
+                limit = numberOfSongs
+        else:
+            return await self.safe_send_message(channel,"Number of songs too big (Max "+str(max)+")",expire_in=30)
+
+
+        for q in range(0, rng):
+            res = sp.recommendations(limit=limit, seed_tracks=[], seed_artists=[id],
+                                     seed_genres=sp.recommendation_genre_seeds())
+            for i in res['tracks']:
+                song = i['name'] + " By " + i['artists'][0]['name'] + " Lyrics"
+                if song not in listOfSongs:
+                    listOfSongs.append(song)
+
+                # //stops getting list too big
+                if len(nextSeedTracks) < 50:
+                    nextSeedTracks.append(i['id'])
+                else:
+                    nextSeedTracks.pop(1)
+                    nextSeedTracks.append(i['id'])
+
+        c = 0
+        for p in listOfSongs:
+            c = c + 1
+            try:
+                await self.cmd_play(player, channel, author, permissions, [], p)
+            except Exception as e:
+                continue
+        return Response(str(c) + " Songs added")
+
 
 
 
