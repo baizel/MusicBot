@@ -82,6 +82,13 @@ class Config:
         self.blacklist_file = config.get('Files', 'BlacklistFile', fallback=ConfigDefaults.blacklist_file)
         self.auto_playlist_file = config.get('Files', 'AutoPlaylistFile', fallback=ConfigDefaults.auto_playlist_file)
 
+
+        self.spotify_username = config.get('Spotify', 'UserName', fallback=ConfigDefaults.spotify_username)
+        self.spotify_clientId = config.get('Spotify', 'ClientId', fallback=ConfigDefaults.spotify_clientId)
+        self.spotify_clientSecret = config.get('Spotify', 'ClientSecret', fallback=ConfigDefaults.spotify_clientSecret)
+        self.spotify_redirectURL = config.get('Spotify', 'RedirectURL', fallback=ConfigDefaults.spotify_redirectURL)
+        #TODO: add checks in run_checks()
+
         self.run_checks()
 
 
@@ -191,6 +198,11 @@ class ConfigDefaults:
     options_file = 'config/options.ini'
     blacklist_file = 'config/blacklist.txt'
     auto_playlist_file = 'config/autoplaylist.txt' # this will change when I add playlists
+
+    spotify_username = None
+    spotify_clientId = None
+    spotify_clientSecret = None
+    spotify_redirectURL = None
 
 # These two are going to be wrappers for the id lists, with add/remove/load/save functions
 # and id/object conversion so types aren't an issue
